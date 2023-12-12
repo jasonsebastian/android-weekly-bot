@@ -1,11 +1,15 @@
 import asyncio
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+import os
 import requests
 from telegram import Bot
 
+load_dotenv()
+
 URL = "https://androidweekly.net/"
-TOKEN = "6828356006:AAFW2u2E5kQ9LTHAGFK06hGJMS_OWNv_awo"
-USER_CHAT_ID = "1377504783"
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+USER_CHAT_ID = os.getenv("TELEGRAM_USER_ID")
 
 
 def fetch_android_weekly_data():
