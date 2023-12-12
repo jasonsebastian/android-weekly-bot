@@ -24,30 +24,30 @@ def fetch_android_weekly_data():
         print("Failed to retrieve the website")
         return
     soup = BeautifulSoup(response.content, "html.parser")
+    edition = (
+        soup.find(class_="issue-header").find(class_="clearfix").get_text(strip=True)
+    )
     articles = soup.find_all(class_="content-text")
-    return list(map(transform, articles))
+    return edition, list(map(transform, articles))
+
+
+def get_message():
+    edition, data = fetch_android_weekly_data()
+    message = f"*Android Weekly {edition}*\n\n"
+    for i, d in enumerate(data):
+        message += f"{i+1}. [{d['title']}]({d['link']})\n"
+        message += d["desc"]
+        if i < len(data) - 1:
+            message += "\n\n"
+    return message
 
 
 async def send_async_message(bot, chat_id):
-    message = "*Android Weekly*\n\n"
-    data = fetch_android_weekly_data()
-    for i, d in enumerate(data):
-        message += f"{i+1}. [{d['title']}]({d['link']})\n"
-        message += d["desc"]
-        if i < len(data) - 1:
-            message += "\n\n"
-    await bot.send_message(chat_id=chat_id, text=message, parse_mode="Markdown")
+    await bot.send_message(chat_id=chat_id, text=get_message(), parse_mode="Markdown")
 
 
 def test_send_message():
-    message = "*Android Weekly*\n\n"
-    data = fetch_android_weekly_data()
-    for i, d in enumerate(data):
-        message += f"{i+1}. [{d['title']}]({d['link']})\n"
-        message += d["desc"]
-        if i < len(data) - 1:
-            message += "\n\n"
-    print(message)
+    print(get_message())
 
 
 def send_message_using_bot():
