@@ -9,7 +9,6 @@ from subscription import get_subscribers_list
 load_dotenv()
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-USER_CHAT_ID = os.getenv("TELEGRAM_USER_ID")
 
 
 async def send_async_message(bot, chat_id):
