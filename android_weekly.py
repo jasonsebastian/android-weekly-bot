@@ -37,7 +37,7 @@ def get_android_weekly():
 
 
 def escape_open_brackets(text):
-    return text.replace("[", r"\[")
+    return text.replace("[", r"\[").replace("]", r"\]")
 
 
 if __name__ == "__main__":
