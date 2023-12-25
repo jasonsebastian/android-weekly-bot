@@ -5,7 +5,7 @@ import requests
 def fetch_android_weekly_data():
     def transform(article):
         return {
-            "title": article.find("a").get_text(strip=True),
+            "title": escape_open_brackets(article.find("a").get_text(strip=True)),
             "link": article.find("a")["href"],
             "desc": article.find(class_="text-container")
             .find("div")
@@ -34,6 +34,10 @@ def get_android_weekly():
         if i < len(data) - 1:
             message += "\n\n"
     return message
+
+
+def escape_open_brackets(text):
+    return text.replace("[", r"\[")
 
 
 if __name__ == "__main__":
